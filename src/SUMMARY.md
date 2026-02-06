@@ -6,4 +6,5 @@
 - [Hooks](./hooks.md)
 - [Rules](./rules.md)
   - [PySpark Rules](./pyspark-rules.md)
+- [Prompt tips](./prompt-tips.md)
 - [References](./references.md)

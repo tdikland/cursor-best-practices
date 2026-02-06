@@ -16,4 +16,5 @@
     - [Data Quality & Expectations](./data-quality.md)
     - [Databricks-Specific Patterns](./databricks-patterns.md)
 - [Prompt tips](./prompt-tips.md)
+- [Commands](./commands.md)
 - [References](./references.md)

@@ -8,6 +8,7 @@
   - [Git Hooks](./git-hooks.md)
   - [Tool Hooks](./tool-hooks.md)
   - [Custom Commands](./custom-commands.md)
+- [Commit Command](./commit-command.md)
 - [Rules](./rules.md)
   - [PySpark Rules](./pyspark-rules.md)
     - [Serverless Compatibility](./serverless-compatibility.md)

@@ -1,5 +1,5 @@
 [book]
-authors = ["Tim Dikland"]
+authors = ["Florent Moiny", "Tim Dikland", "Pruthviraj Shivanna", "Daniel Sparing"]
 language = "en"
 src = "src"
-title = "Cursor productivity best practices"
+title = "Cursor Best Practices for Databricks"

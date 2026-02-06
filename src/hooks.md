@@ -1,71 +1,43 @@
 # Hooks
 
-Hooks are automated scripts that run at specific points in your development workflow. They help enforce standards, prevent mistakes, and automate repetitive tasks.
 
-## Types of Hooks
+Cursor hooks are scripts that run at defined stages of the agent loop (e.g. before/after file edits, shell execution). They are configured in `.cursor/hooks.json` and receive JSON over stdin. Project hooks run from the project root and apply to everyone who opens the repo in a trusted workspace.
 
-### User Prompt Submit Hooks
-Run automatically when you submit a prompt to the AI assistant. Useful for adding project context and enforcing standards.
+Use hooks to run formatters after edits, audit actions, or enforce policies without repeating instructions in chat.
 
-**Use cases:**
-- Add project-specific context automatically
-- Remind about coding standards
-- Inject current environment information
-- Provide dynamic project state
+## Example: format Markdown after edit
 
-### Git Hooks
-Execute at specific points in your git workflow (before commit, before push, etc.).
 
-**Use cases:**
-- Validate code quality before commits
-- Run tests before pushing
-- Enforce commit message formats
-- Prevent hardcoded secrets
-- Check for serverless compatibility
+This repo defines an **afterFileEdit** hook that formats and cleans Markdown files whenever the agent creates or modifies them. That keeps docs consistent without extra prompts.
 
-### Tool Hooks
-Intercept specific tool calls (Bash, Edit, Write, etc.) to validate or enhance operations.
+**Configuration** (`.cursor/hooks.json`):
 
-**Use cases:**
-- Validate bash commands before execution
-- Check file edits for common issues
-- Enforce file naming conventions
-- Log operations for audit
-- Add safety checks for destructive operations
+```json
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "python3 .cursor/hooks/format-markdown.py"
+      }
+    ]
+  }
+}
+```
 
-### Custom Commands
-Project-specific slash commands that provide quick access to common workflows.
+**Script** (`.cursor/hooks/format-markdown.py`): reads the hook payload from stdin, and if the edited file is a `.md` or `.markdown` file, it applies common Markdown best practices:
 
-**Use cases:**
-- Standardize commit process
-- Automate testing workflows
-- Simplify deployment
-- Generate boilerplate code
-- Run project-specific validations
+- Single trailing newline at end of file
+- No trailing whitespace on lines
+- Blank line before and after ATX headings (`#`, `##`, …)
+- Space between `#` and the heading text
+- At most one consecutive blank line
 
-## Benefits of Using Hooks
+So you can ask the agent to create or change Markdown and get consistent formatting automatically. To change or extend the rules, edit `.cursor/hooks/format-markdown.py`.
 
-1. **Consistency** - Ensure team follows same standards
-2. **Prevention** - Catch issues before they become problems
-3. **Automation** - Reduce manual, repetitive tasks
-4. **Context** - Provide AI with project-specific information
-5. **Safety** - Prevent destructive operations
-6. **Quality** - Enforce code quality standards
+For more hook types and options (e.g. `beforeShellExecution`, matchers, timeouts), see [Hooks \| Cursor Docs](https://cursor.com/docs/agent/hooks).
 
-## Getting Started
+## Hook types and benefits
 
-1. Choose the hook type that fits your need
-2. Create hook scripts in appropriate directory
-3. Configure hooks in your project settings
-4. Test hooks with various scenarios
-5. Document hooks for team members
 
-## Best Practices
-
-- **Keep Hooks Fast** - Slow hooks frustrate developers
-- **Fail Gracefully** - Provide clear error messages
-- **Make Them Optional** - Allow bypass for emergencies
-- **Version Control** - Commit hooks to share with team
-- **Document Purpose** - Explain what each hook does
-- **Test Thoroughly** - Verify hooks work in all scenarios
-
+Hooks can run at different points: session start/end, before/after tool use (e.g. shell, file edit, MCP), before prompt submit, and more. They help enforce standards, prevent mistakes, and automate repetitive tasks—e.g. validate commands, format files, add context, or block risky operations. Keep hooks fast, fail gracefully, and document them for the team.

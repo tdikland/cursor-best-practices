@@ -1,4 +1,7 @@
 # Summary
 
-- [Chapter 1](./chapter_1.md)
+- [Installation](./installation.md)
+  - [Installing Cursor](./installing-cursor.md)
+  - [Installing Claude Code](./installing-claude-code.md)
+- [Hooks](./hooks.md)
 - [References](./references.md)
